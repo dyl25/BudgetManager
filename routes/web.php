@@ -11,8 +11,13 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::middleware('auth')->group(function() {
+    Route::get('/', 'HomeController@index');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::get('/mainaccount/create', 'MainAccountController@create')->name('mainaccounts.create');
+    Route::post('/mainaccount/store', 'MainAccountController@store')->name('mainaccounts.store');
+});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

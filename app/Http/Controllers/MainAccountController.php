@@ -22,9 +22,9 @@ class MainAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('mainAccount.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class MainAccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, []);
     }
 
     /**
