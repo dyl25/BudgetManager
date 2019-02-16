@@ -1,6 +1,6 @@
 @extends('layouts.front-app')
 
-@section('tite', 'Gestion des comptes')
+@section('title', 'Gestion des comptes')
 
 @section('content')
 <div class="container">
