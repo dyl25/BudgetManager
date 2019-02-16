@@ -21,6 +21,9 @@ class CreateAccountsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->string('description');
             $table->float('total');
+            $table->dateTime('from');
+            $table->dateTime('to');
+            $table->boolean('is_positif');
             $table->timestamps();
         });
     }
