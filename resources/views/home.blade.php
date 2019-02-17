@@ -20,7 +20,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">Compte principal</h5>
                     <p class="card-text display-4">
-                        <a href="{{ route('managers.index') }}">{{ $mainAccount->total }} €</a>
+                        <a href="{{ route('managers.index', $mainAccount->id) }}">{{ $mainAccount->total }} €</a>
                     </p>
                     <p class="card-text">créé le {{ $mainAccount->created_at->format('d/m/Y') }}</p>
                 </div>

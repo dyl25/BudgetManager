@@ -30,7 +30,7 @@ class HomeController extends Controller
         $statusClassIndicator = 'bg-primary';
 
         if($mainAccount) {
-            if(! $mainAccount->isPositif) {
+            if(! $mainAccount->is_positif) {
                 $statusClassIndicator = 'bg-danger';
             }
         }

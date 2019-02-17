@@ -19,9 +19,4 @@ class MainAccount extends Model
         return $this->belongsTo(User::class);
     }
 
-    //Mutators
-    public function getIsPositifAttribute() {
-        return $this->total >= 0;
-    }
-
 }
