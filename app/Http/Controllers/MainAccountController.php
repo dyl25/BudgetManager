@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MainAccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MainAccountController extends Controller
 {
@@ -35,7 +36,19 @@ class MainAccountController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, []);
+        $this->validate($request, [
+            'total' => 'required|numeric'
+        ]);
+
+        MainAccount::create([
+            'user_id' => Auth::id(),
+            'total' => $request->total,
+            'is_positif' => $request->total > 0
+        ]);
+
+        session()->flash('notification', 'Votre compte a bien été créé');
+
+        return redirect()->route('home');
     }
 
     /**

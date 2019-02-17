@@ -15,6 +15,9 @@
     <title>@yield('title')</title>
 </head>
 <body>
+    @if(session('notification'))
+        @include('layouts.notification')
+    @endif
     @yield('content')
 </body>
 </html>

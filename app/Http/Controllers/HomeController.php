@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\MainAccount;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $mainAccount = MainAccount::where('user_id', Auth::id())->first();
+
+        $statusClassIndicator = 'bg-primary';
+
+        if($mainAccount) {
+            if(! $mainAccount->isPositif) {
+                $statusClassIndicator = 'bg-danger';
+            }
+        }
+
+        return view('home', compact('mainAccount', 'statusClassIndicator'));
     }
 }

@@ -19,5 +19,19 @@ class UsersTableSeeder extends Seeder
             "password" => app('hash')->make("epfc12"),
             "created_at" => new DateTime()
         ]);
+
+        DB::table('users')->insert([
+            "name" => "negatif",
+            "email" => "negatif@example.io",
+            "password" => app('hash')->make("epfc12"),
+            "created_at" => new DateTime()
+        ]);
+
+        DB::table('users')->insert([
+            "name" => "noaccount",
+            "email" => "noaccount@example.io",
+            "password" => app('hash')->make("epfc12"),
+            "created_at" => new DateTime()
+        ]);
     }
 }
