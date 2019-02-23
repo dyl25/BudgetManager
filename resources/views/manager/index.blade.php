@@ -17,7 +17,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <p class="card-text display-5">
-                                <a href="{{ route('managers.create') }}" class="text-white"> Créer un nouveau compte</a>
+                                <a href="{{ route('managers.create', $mainAccount->id) }}" class="text-white"> Créer un nouveau compte</a>
                             </p>
                         </div>
                     </div>

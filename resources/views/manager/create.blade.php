@@ -8,11 +8,13 @@
 
         <div class="col-md-8 jumbotron  mx-auto">
             <h4 class="display-4">Création d'un nouveau compte</h4>
-                @if($errors->any())
+                @if($errors->any() || session('errorMsg'))
                     @include('layouts.errors')
                 @endif
-                <form action="{{ route('managers.store') }}" method="POST" class="text-center my-4">
+                <form action="{{ route('managers.store', $mainAccount->id) }}" method="POST" class="text-center my-4">
                     @csrf
+                    <input type="hidden" name="mainAccount" value="{{ $mainAccount->id }}">
+
                     <div class="form-group offset-md-3 col-md-5">
                         <label for="total">Nom du compte</label>
                         <div class="input-group">
