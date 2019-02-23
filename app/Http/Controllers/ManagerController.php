@@ -24,20 +24,26 @@ class ManagerController extends Controller
 
     public function store(Request $request, MainAccount $mainAccount)
     {
-
         $this->validate($request, [
-            'mainAccount' => 'bail|required|numeric|',
-            'description' => 'bail|required|string',
-            'to' => 'bail|required|date|before_or_equal:from',
+            'mainAccount' => 'bail|required|numeric|exists:main_account,id',
+            'description' => 'bail|required|string|min:3',
+            'to' => 'bail|required|date',
             'from' => 'bail|required|date'
         ]);
 
         if (!MainAccount::where([
-                ['id' => $request->mainAccount],
-                ['user_id' => Auth::id()]
-            ])->exists()) {
+            ['id', $request->mainAccount],
+            ['user_id',  Auth::id()]
+        ])->exists()) {
             session()->flash('errorMsg', 'Ce compte principal n\'existe pas. ');
+            return redirect()->back();
         }
+
+        MainAccount::create([
+            'main_acount' => $request->mainAccount,
+            'user_id' => Auth::id(),
+            'description' => $request->description
+        ]);
 
         session()->flash('notification', 'Nouveau compte créé');
 

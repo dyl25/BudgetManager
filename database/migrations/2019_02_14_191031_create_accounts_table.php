@@ -20,7 +20,7 @@ class CreateAccountsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->string('description');
-            $table->float('total');
+            $table->float('total')->default(0);
             $table->dateTime('from');
             $table->dateTime('to');
             $table->boolean('is_positif');

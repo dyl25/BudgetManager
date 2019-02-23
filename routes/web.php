@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/mainaccount/store', 'MainAccountController@store')->name('mainaccounts.store');
 
     Route::get('/manage/accounts/create/{mainAccount}', 'ManagerController@create')->name('managers.create');
-    Route::post('/manage/accounts/store', 'ManagerController@store')->name('managers.store');
+    Route::post('/manage/accounts/store/{mainAccount}', 'ManagerController@store')->name('managers.store');
     Route::get('/manage/accounts/{mainAccount}', 'ManagerController@index')->name('managers.index');
 });
 
