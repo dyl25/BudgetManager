@@ -52,4 +52,8 @@ class ManagerController extends Controller
 
         return redirect()->route('managers.index', $mainAccount->id);
     }
+
+    public function view(Account $account) {
+    
+    }
 }

@@ -8,6 +8,18 @@
         <div class="col-md-6">
             @if($accounts->isEmpty())
             <h4>Vous n'avez encore créé aucun compte</h4>
+            @else
+            @foreach($accounts as $account)
+            <div class="card mb-3 {{ $account->is_positif ? 'border-success' : 'brder-danger' }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ $account->description }}</h5>
+                    <p class="card-text display-4">
+                        <a href="{{ route('managers.view', $account->id) }}">{{ $account->total }} €</a>
+                    </p>
+                    <p class="card-text">créé le {{ $account->created_at->format('d/m/Y') }}</p>
+                </div>
+            </div>
+            @endforeach
             @endif
             <div class="card text-white bg-success text-center">
                 <div class="row no-gutters">
@@ -26,4 +38,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 
