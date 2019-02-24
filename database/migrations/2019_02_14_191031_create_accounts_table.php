@@ -23,7 +23,7 @@ class CreateAccountsTable extends Migration
             $table->float('total')->default(0);
             $table->dateTime('from');
             $table->dateTime('to');
-            $table->boolean('is_positif');
+            $table->boolean('is_positif')->default(true);
             $table->timestamps();
         });
     }

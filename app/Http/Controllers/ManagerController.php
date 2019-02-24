@@ -24,11 +24,12 @@ class ManagerController extends Controller
 
     public function store(Request $request, MainAccount $mainAccount)
     {
+        //valider to doit etre avant from
         $this->validate($request, [
             'mainAccount' => 'bail|required|numeric|exists:main_account,id',
             'description' => 'bail|required|string|min:3',
-            'to' => 'bail|required|date',
-            'from' => 'bail|required|date'
+            'from' => 'bail|required|date|before_or_equal:to',
+            'to' => 'bail|required|date|after_or_equal:from'
         ]);
 
         if (!MainAccount::where([
@@ -39,10 +40,12 @@ class ManagerController extends Controller
             return redirect()->back();
         }
 
-        MainAccount::create([
-            'main_acount' => $request->mainAccount,
+        Account::create([
+            'main_account_id' => $request->mainAccount,
             'user_id' => Auth::id(),
-            'description' => $request->description
+            'description' => $request->description,
+            'from' => $request->from,
+            'to' => $request->to
         ]);
 
         session()->flash('notification', 'Nouveau compte créé');
