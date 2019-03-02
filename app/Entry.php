@@ -12,4 +12,8 @@ class Entry extends Model
     public function account() {
         return $this->belongsTo(Account::class);
     }
+
+    public function getIsPositifAttribute() {
+        return $this->amount >= 0;
+    }
 }

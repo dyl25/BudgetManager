@@ -24,7 +24,6 @@ class ManagerController extends Controller
 
     public function store(Request $request, MainAccount $mainAccount)
     {
-        //valider to doit etre avant from
         $this->validate($request, [
             'mainAccount' => 'bail|required|numeric|exists:main_account,id',
             'description' => 'bail|required|string|min:3',
@@ -54,6 +53,9 @@ class ManagerController extends Controller
     }
 
     public function view(Account $account) {
-    
+
+        $account->load('entries');
+
+        return view('manager.view', compact('account'));
     }
 }
