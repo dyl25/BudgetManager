@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
 
             <div class="card mb-3 {{ $account->is_positif ? 'border-success' : 'brder-danger' }}">
                 <div class="card-body text-center">
@@ -32,6 +32,9 @@
             </div>
             @endforeach
             @endif
+
+            <entries :data-entries="{{ $account->entries }}" :data-account-id="{{ $account->id }}"></entries>
+
         </div>
     </div>
 </div>
