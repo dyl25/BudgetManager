@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entry;
+use App\Account;
 
 class EntryController extends Controller
 {
+    public function index(Account $account) {
+       return $account->entries;
+    }
+
     public function store() {
         request()->validate([
             'account_id' => 'required|numeric|exists:accounts,id',
@@ -14,12 +19,12 @@ class EntryController extends Controller
             'amount' => 'required|numeric'
         ]);
 
-        Entry::create([
+        return Entry::create([
             'account_id' => request('account_id'),
             'description' => request( 'description'),
             'amount' => request('amount')
         ]);
 
-        return 'Entrée ajoutée !';
+        //return 'Entrée ajoutée !';
     }
 }

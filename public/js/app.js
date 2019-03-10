@@ -1872,39 +1872,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['dataEntries', 'dataAccountId'],
   data: function data() {
     return {
-      entries: this.dataEntries,
-      account_id: this.dataAccountId,
-      label: "",
-      amount: 0
+      //entries: this.dataEntries,
+      entries: [],
+      form: {
+        account_id: this.dataAccountId,
+        description: '',
+        amount: 0
+      },
+      errors: {}
     };
   },
+  mounted: function mounted() {
+    this.getComments();
+  },
   methods: {
-    addEntry: function addEntry() {
+    getComments: function getComments() {
       var _this = this;
 
-      axios.post('/api/entries/store', {
-        'account_id': this.account_id,
-        'description': this.label,
-        'amount': this.amount
-      }).then(function (result) {
-        console.log(result);
+      axios.get("/api/entries/".concat(this.dataAccountId)).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.entries = data;
+      });
+    },
+    addEntry: function addEntry() {
+      var _this2 = this;
 
-        _this.entries.push({
-          description: _this.description,
-          amount: _this.amount
-        });
+      axios.post('/api/entries/store', this.form).then(function (_ref2) {
+        var data = _ref2.data;
+        console / log(data);
+
+        _this2.entries.push(data);
+
+        _this2.form.description = "";
+        _this2.form.amount = 0;
+        _this2.errors = {};
+      }).catch(function (error) {
+        _this2.errors = error.response.data.errors;
       });
     }
   }
@@ -19719,160 +19727,166 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.entries, function(entry) {
+        return _c(
+          "div",
+          { key: entry.id, staticClass: "alert alert-success" },
+          [
+            _c("h5", { staticClass: "alert-heading" }, [
+              _vm._v(_vm._s(entry.description) + " - "),
+              _c("span", { staticClass: "text-muted" }, [
+                _vm._v(_vm._s(entry.created_at))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(entry.amount) + " €")])
+          ]
+        )
+      }),
       _vm._v(" "),
       _c(
-        "tbody",
-        _vm._l(_vm.entries, function(entry) {
-          return _c("tr", [
-            _c("td", [_vm._v(_vm._s(entry.description))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(entry.amount) + " €")]),
-            _vm._v(" "),
-            _vm._m(1, true)
-          ])
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        staticClass: "text-center my-4 jumbotron",
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.addEntry($event)
-          }
-        }
-      },
-      [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.account_id,
-              expression: "account_id"
-            }
-          ],
-          attrs: { type: "hidden", name: "account" },
-          domProps: { value: _vm.account_id },
+        "form",
+        {
+          staticClass: "text-center my-4 jumbotron",
           on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.account_id = $event.target.value
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addEntry($event)
             }
           }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "form-group offset-md-3 col-md-5" }, [
-            _c("label", { attrs: { for: "amountLabel" } }, [_vm._v("Libellé")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.label,
-                    expression: "label"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  name: "amountLabel",
-                  id: "amountLabel",
-                  required: ""
-                },
-                domProps: { value: _vm.label },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.label = $event.target.value
-                  }
+        },
+        [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.account_id,
+                expression: "form.account_id"
+              }
+            ],
+            attrs: { type: "hidden", name: "account" },
+            domProps: { value: _vm.form.account_id },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
                 }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "form-group offset-md-3 col-md-5" }, [
-            _c("label", { attrs: { for: "amount" } }, [_vm._v("Somme")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _vm._m(2),
+                _vm.$set(_vm.form, "account_id", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group offset-md-3 col-md-5" }, [
+              _c("label", { attrs: { for: "amountLabel" } }, [
+                _vm._v("Libellé")
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.amount,
-                    expression: "amount"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "number",
-                  name: "amount",
-                  id: "amount",
-                  required: ""
-                },
-                domProps: { value: _vm.amount },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.description,
+                      expression: "form.description"
                     }
-                    _vm.amount = $event.target.value
+                  ],
+                  staticClass: "form-control",
+                  class: { "border-danger": _vm.errors.description },
+                  attrs: {
+                    type: "text",
+                    name: "amountLabel",
+                    id: "amountLabel",
+                    required: ""
+                  },
+                  domProps: { value: _vm.form.description },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "description", $event.target.value)
+                    }
                   }
-                }
-              })
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.description
+                ? _c("p", {
+                    staticClass: "text-danger",
+                    domProps: { textContent: _vm._s(_vm.errors.description[0]) }
+                  })
+                : _vm._e()
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-          [_vm._v("Ajouter")]
-        )
-      ]
-    )
-  ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "form-group offset-md-3 col-md-5" }, [
+              _c("label", { attrs: { for: "amount" } }, [_vm._v("Somme")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.form.amount,
+                      expression: "form.amount",
+                      modifiers: { number: true }
+                    }
+                  ],
+                  staticClass: "form-control",
+                  class: { "border-danger": _vm.errors.amount },
+                  attrs: {
+                    type: "number",
+                    step: "0.01",
+                    name: "amount",
+                    id: "amount",
+                    required: ""
+                  },
+                  domProps: { value: _vm.form.amount },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "amount", _vm._n($event.target.value))
+                    },
+                    blur: function($event) {
+                      return _vm.$forceUpdate()
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.amount
+                ? _c("p", {
+                    staticClass: "text-danger",
+                    domProps: { textContent: _vm._s(_vm.errors.amount[0]) }
+                  })
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("Ajouter")]
+          )
+        ]
+      )
+    ],
+    2
+  )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Libellé")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Montant")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("a", { attrs: { href: "#" } }, [_vm._v("Supprimer")])])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

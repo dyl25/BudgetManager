@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="card mb-3 {{ $account->is_positif ? 'border-success' : 'brder-danger' }}">
+            <div class="card mb-3 {{ $account->is_positif ? 'border-success' : 'border-danger' }}">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $account->description }}</h5>
                     <p class="card-text display-4">
@@ -20,20 +20,9 @@
             @if($account->entries->isEmpty())
             <h4>Vous n'avez encore aucune entrée</h4>
             @else
-            @foreach($account->entries as $entry)
-            <div class="card mb-3 {{ $entry->is_positif ? 'border-success' : 'brder-danger' }}">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ $entry->description }}</h5>
-                    <p class="card-text display-4">
-                        <p>{{ $entry->amount }} €</p>
-                    </p>
-                    <p class="card-text">créé le {{ $entry->created_at->format('d/m/Y') }}</p>
-                </div>
-            </div>
-            @endforeach
+            <entries :data-account-id="{{ $account->id }}"></entries>
             @endif
 
-            <entries :data-entries="{{ $account->entries }}" :data-account-id="{{ $account->id }}"></entries>
 
         </div>
     </div>
