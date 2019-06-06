@@ -35,6 +35,9 @@
                     </div>
                 </div>
             </div>
+            @foreach($accounts as $account)
+            <account :data-url="{{ route('managers.view', $account->id) }}" :data-account="{{$account}}"></account>
+            @endforeach
         </div>
     </div>
 </div>

@@ -57,6 +57,7 @@
                 })
                 .catch(error => {
                     this.errors = error.response.data.errors;
+                    this.$emit('notify', {service: 'Entry', message: 'Error!!!'});
                 });
             }
         }

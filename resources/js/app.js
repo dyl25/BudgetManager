@@ -21,6 +21,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('alert', require('./components/AlertComponent.vue').default);
+Vue.component('accounts', require('./components/AccountsComponent.vue').default);
+Vue.component('account', require('./components/AccountComponent.vue').default);
 Vue.component('entries', require('./components/EntriesComponent.vue').default);
 
 /**

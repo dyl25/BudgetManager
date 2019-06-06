@@ -24,7 +24,11 @@ class EntryController extends Controller
             'description' => request( 'description'),
             'amount' => request('amount')
         ]);
+    }
 
-        //return 'Entrée ajoutée !';
+    public function destroy(Entry $entry) {
+        $entry->delete();
+        
+        return response()->json(null, 204);
     }
 }
